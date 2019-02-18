@@ -1,0 +1,62 @@
+<head>
+  <link rel="stylesheet" href="https://cdn.shoelace.style/1.0.0-beta24/shoelace.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <section class="section">
+      <div class="container pad-t-lg">
+        <section class="mar-b-lg">
+          <h1>Monty Hall Simulator</h1>
+        </section>
+
+        <section class="mar-b-lg">
+          <div class="row">
+            <div :class="['col-6', 'col-sm-' + colSize, 'mar-b-md']" v-for="door in doors">
+              <div class="chamber" @click="!hasPickedDoor && pickDoor(door.number)">
+                <div
+                  :class="[{ 'door-is-available': !hasPickedDoor && !door.isPicked }, 'door']"
+                  v-if="!door.isOpen"
+                >
+                  <div class="door-label">
+                    <span :class="['badge', { 'badge-secondary': !door.isPicked }]">
+                      {{ door.number }}
+                    </span>
+                  </div>
+                </div>
+                <img class="item" :src="door.hasCar ? 'car.png' : 'goat.png'"></img>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mar-b-lg text-center">
+            <span v-if="hasFinished && hasWon" class="text-success mar-r-sm">
+              You won!
+            </span>
+            <span v-if="hasFinished && !hasWon" class="text-danger mar-r-sm">
+              You lost!
+            </span>
+            <span v-if="hasPickedDoor && !hasFinished">
+              <button @click="keepDoor()" type="button">Keep</button>
+              <button @click="switchDoor()" type="button">Switch</button>
+            </span>
+            <span v-if="hasPickedDoor">
+              <button @click="reset()" type="button" class="button-danger">Reset</button>
+            </span>
+            <span v-if="!hasPickedDoor">
+                Pick a door
+            </span>
+        </section>
+
+        <section class="mar-b-lg">
+          <div class="input-field">
+            <label>Amount of doors (min 3 - max 1000)</label>
+            <input type="number" @input="reset" v-model="amountOfDoors">
+          </div>
+        </section>
+      </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="main.js"></script>
+</body>
